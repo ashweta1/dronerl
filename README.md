@@ -1,3 +1,3 @@
 # dronerl
 
-Library to run multi-agent reinforcement learning for Drone configuration applictaion.
+Library to run multi-agent reinforcement learning for Drone configuration application.
