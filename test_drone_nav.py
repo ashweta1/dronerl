@@ -1,7 +1,9 @@
-# Environment
 import pickle
+import sys
 import time
+import os
 
+# Environment
 import gym
 import numpy as np
 import ray
@@ -25,12 +27,12 @@ def env_creator(args):
     continuous_actions = False
     if ALGO_NAME == "DDPG":
         continuous_actions = True
-    if 'render_mode' in args:
+    if RENDER_MODE is not None:
         return simple_spread_drone_v2.parallel_env(N=num_agents,
                                                    local_ratio=local_reward_ratio,
                                                    max_cycles=max_cycles,
                                                    continuous_actions=continuous_actions,
-                                                   render_mode=args['render_mode'])
+                                                   render_mode=RENDER_MODE)
     else:
         return simple_spread_drone_v2.parallel_env(N=num_agents,
                                                    local_ratio=local_reward_ratio,
@@ -84,29 +86,40 @@ def test_policy(env, policy_agent, max_timesteps):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # Test policy parameters
+    if len(sys.argv) > 7:
+      UsageError('Too many command-line arguments.')
+    if len(sys.argv) < 6:
+      print("Usage: ", sys.argv[0], " <num_agents> <algo_name[PPO/DQN/DDPG]> <num_test_trials> <input_checkpoint_path> <output_test_results_dir> [<render_mode(rgb_array/human)>]")
+      exit(1)
+    # Num agents (e.g. 3)
+    NUM_AGENTS = int(sys.argv[1])
+    # Algorithm [PPO, DQN, DDPG]
+    ALGO_NAME = sys.argv[2]
+    # Number of trials (e.g. 1000)
+    NUM_TRIALS = int(sys.argv[3])
     # Check point path to read the policy from
-    # With -10 penalty for collisions, 50k episodes
-    #CHECKPOINT_PATH="ray_results/PPO/PPO_droneworld_473cb_00000_0_2022-12-06_04-05-30/checkpoint_000270"
-    #CHECKPOINT_PATH="ray_results/PPO/PPO_droneworld_5c1db_00000_0_2022-12-06_05-03-21/checkpoint_000200"
+    # Example: ray_results/PPO/PPO_droneworld_22c26_00000_0_2022-12-06_19-13-35/checkpoint_000480
+    CHECKPOINT_PATH= sys.argv[4]
+    # Output dir for test results
+    OUTPUT_TEST_RESULTS_DIR = sys.argv[5]
+    RENDER_MODE=None
+    if len(sys.argv) > 6:
+      RENDER_MODE = sys.argv[6]
 
-    # Penalty -1 Episodes 120k
-    #CHECKPOINT_PATH="ray_results/PPO/PPO_droneworld_92c2f_00000_0_2022-12-06_21-32-43/checkpoint_000330"
-    # Penalty -10 Episodes 120k
-    CHECKPOINT_PATH="ray_results/PPO/PPO_droneworld_22c26_00000_0_2022-12-06_19-13-35/checkpoint_000480"
-    # Penalty -50 Episodes 120k
-    #CHECKPOINT_PATH = "ray_results/PPO/PPO_droneworld_65f18_00000_0_2022-12-06_23-47-28/checkpoint_000510"
-
-    ALGO_NAME = "PPO"
-    #ALGO_NAME = "DQN"
-    #ALGO_NAME = "DDPG"
+    print("=========================================================")
+    print("Starting test run with the following configuration:")
+    print("NUM_AGENTS = ", NUM_AGENTS)
+    print("ALGO_NAME = ", ALGO_NAME)
+    print("NUM_TRIALS = ", NUM_TRIALS)
+    print("CHECKPOINT_PATH = ", CHECKPOINT_PATH)
+    print("OUTPUT_TEST_RESULTS_DIR = ", OUTPUT_TEST_RESULTS_DIR)
+    print("RENDER_MODE = ", RENDER_MODE)
+    print("=========================================================")
 
     # Environment settings
     MAX_CYCLES = 25
-    NUM_AGENTS = 3
     LOCAL_REWARD_RATIO = 0  # give higher importance to global reward.
-
-    # Test settings
-    NUM_TRIALS = 1000
 
     env_name = "droneworld"
 
@@ -114,7 +127,6 @@ if __name__ == '__main__':
     register_env(env_name, lambda args: ParallelPettingZooEnv(env_creator(args)))
 
     # Create env
-    #env = env_creator({"render_mode": "human"})
     env = env_creator({})
     print("Env observation space: ", env.observation_spaces)
     print("Env action space: ", env.action_spaces)
@@ -178,7 +190,7 @@ if __name__ == '__main__':
     print("% Trials with collisions = ", (trials_with_collisions / NUM_TRIALS) * 100, "%")
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    results_filename = "./test_results/" + ALGO_NAME + "_reward_done_list." + timestr
+    results_filename = os.path.join(OUTPUT_TEST_RESULTS_DIR, ALGO_NAME + "_reward_done_list." + timestr)
     print("Saving results in: ", results_filename)
     np.savetxt(results_filename, reward_done_list)
 
