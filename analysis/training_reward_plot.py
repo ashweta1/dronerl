@@ -22,16 +22,18 @@ base_filename = os.path.splitext(os.path.basename(progress_csv))[0]
 output_png = os.path.join(output_pngs_dir, base_filename + ".png")
 print("Output png file name: ", output_png)
 
-columns = ["episode_reward_mean"]
+columns = ["training_iteration", "episode_reward_mean", "episodes_total"]
 df = pd.read_csv(progress_csv, usecols=columns)
-df.index = [x for x in range(1, len(df.values)+1)]
 print("Contents in csv file: ", df)
 print("Contents in csv file shape: ", df.shape)
 
 plt.rcParams["figure.autolayout"] = True
+
+col1 = 'steelblue'
 ax = df.plot()
-ax.set_xlabel("Training iteration #")
-ax.set_ylabel("Mean reward over all episodes per iteration")
+ax.set_xlabel("Training episode")
+ax.set_ylabel("Mean episode reward")
+ax.plot(df.episodes_total, df.episode_reward_mean, color=col1)
 plt.show()
 plt.savefig(output_png)
 plt.close()
