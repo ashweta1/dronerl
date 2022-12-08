@@ -42,6 +42,7 @@ def env_creator(args):
 
 def test_policy(env, policy_agent, max_timesteps):
     observations = env.reset()
+    env.render()
     #env.reset_landmarks_in_pattern()
     #reset_my_world_landmarks(env)
     #print("Initial observations: ", observations)
@@ -170,6 +171,8 @@ if __name__ == '__main__':
     for i in range(NUM_TRIALS):
         print("Trial: ", i + 1)
         reward_sum, timesteps, all_done, collisions = test_policy(env, agent, max_timesteps=MAX_CYCLES)
+        if RENDER_MODE == "human":
+            time.sleep(1)
         reward_done_list.append([i, reward_sum, timesteps, all_done, collisions])
         total_reward += reward_sum
         if all_done:

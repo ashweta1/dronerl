@@ -33,6 +33,6 @@ col1 = 'steelblue'
 ax = df.plot("episodes_total", "episode_reward_mean", color=col1)
 ax.set_xlabel("Training episode")
 ax.set_ylabel("Mean episode reward")
-plt.show()
+#plt.show()
 plt.savefig(output_png)
 plt.close()
