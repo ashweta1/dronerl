@@ -13,6 +13,10 @@ dronerl/: Multi-agent RL training with PPO/DQN/DDPG using a parameter sharing ap
 - analysis/: scripts to generate plots and evaluate the iteration with best expected rewards.
 - gym_envs/simple_spread_drone*: Most of the code in this subdirectory is a copy of PettingZoo simple_spread.py MPE env. Some tweaks and updates were needed to the reward function, and termination conditions, because of which I had to make local copies of these files.
 
+Access Demos here:
+==================
+DroneGridEnv demo with Q-learning policy: https://youtu.be/aYm5vWn4qRk
+PettingZoo's MPE demo with PPO based policy: https://youtu.be/rpW3ANoM2J8
 
 To run this code
 =================
@@ -42,4 +46,6 @@ To test: <br>
 python test\_drone\_nav.py  <num_agents> <algo_name[PPO/DQN/DDPG]> <num_test_trials> <input_checkpoint_path> <output_test_results_dir> [<render_mode(rgb_array/human)>] <br>
 Example: <br>
 python3 test\_drone\_nav.py 6 PPO 10 ~/ray\_results/PPO/PPO\_droneworld\_9b930\_00000\_0\_2022-12-07\_21-10-42/checkpoint\_000040/ ~/test\_results
+
+
 
