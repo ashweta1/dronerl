@@ -15,8 +15,8 @@ dronerl/: Multi-agent RL training with PPO/DQN/DDPG using a parameter sharing ap
 
 Access Demos here:
 ==================
-DroneGridEnv demo with Q-learning policy: https://youtu.be/aYm5vWn4qRk
-PettingZoo's MPE demo with PPO based policy: https://youtu.be/rpW3ANoM2J8
+- DroneGridEnv demo with Q-learning policy: https://youtu.be/aYm5vWn4qRk
+- PettingZoo's MPE demo with PPO based policy: https://youtu.be/rpW3ANoM2J8
 
 To run this code
 =================
