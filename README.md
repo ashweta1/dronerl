@@ -2,10 +2,9 @@
 
 Library to run multi-agent reinforcement learning for Drone configuration application.
 ======================================================================================
-Code in this library:
 
 dronerl/centralized_mdp: MDP model for centralized model with joint observation and joint action for all agents
-- cs229_gym_envs/drone_grid_env.py: custom implementation of grid env based in GridWorldEnv, extended to support multiple agents and targets.
+- cs229_gym_envs/drone_grid_env.py: My custom implementation of grid env based in GridWorldEnv, extended to support multiple agents and targets.
 - main.py: Implementation of Q-learning to train, and a function to load and test the learnt policy.
 
 dronerl/: Multi-agent RL training with PPO/DQN/DDPG using a parameter sharing approach to learn a single policy through ray[rllib], using PettingZooo MPE env.
@@ -15,7 +14,8 @@ dronerl/: Multi-agent RL training with PPO/DQN/DDPG using a parameter sharing ap
 - gym_envs/simple_spread_drone*: Most of the code in this subdirectory is a copy of PettingZoo simple_spread.py MPE env. Some tweaks and updates were needed to the reward function, and termination conditions, because of which I had to make local copies of these files.
 
 
-
+To run this code
+=================
 You will need the following packages:<br>
 pip install ray[rllib]<br>
 pip install gym<br>
