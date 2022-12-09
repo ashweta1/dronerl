@@ -1,4 +1,4 @@
-# dronerl
+# github.com/ashweta1/dronerl
 
 Library to run multi-agent reinforcement learning for Drone configuration application.
 ======================================================================================
